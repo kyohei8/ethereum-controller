@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Ethrcon</title>
+    <link rel="stylesheet" href="../node_modules/sanitize.css/sanitize.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="../node_modules/milligram/dist/milligram.min.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="./app.css">
+    <script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
+  </head>
+  <body>
+    <!--
+    We are using Node.js <script>document.write(process.versions.node)</script>,
+    Chromium <script>document.write(process.versions.chrome)</script>,
+    and Electron <script>document.write(process.versions.electron)</script>.
+    -->
+    <div id="app"></div>
+  </body>
+
+
+  <script>
+    window.ipcRenderer = require('electron').ipcRenderer;
+  </script>
+  <script src="http://localhost:8080/assets/app.bundle.js"></script>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "geth Controller",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "electron .",
+    "dev": "webpack-dev-server"
+  },
+  "devDependencies": {
+    "electron": "^1.6.2",
+    "webpack": "^2.3.3",
+    "webpack-dev-server": "^2.4.2"
+  },
+  "dependencies": {
+    "milligram": "^1.3.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "sanitize.css": "^5.0.0"
+  }
+}
