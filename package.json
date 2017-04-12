@@ -1,6 +1,7 @@
 {
-  "name": "ethereum-contorller",
+  "name": "ethereum-controller",
   "version": "0.1.0",
+  "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dev": "webpack-dev-server"
