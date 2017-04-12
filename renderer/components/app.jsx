@@ -3,10 +3,6 @@ import React, { Component, PropTypes } from 'react';
 const propTypes = {};
 const defaultProps = {};
 
-ipcRenderer.on('success', function(obj, res) {
-  console.log('success');
-});
-
 /**
  * App
  */
@@ -17,7 +13,8 @@ class App extends Component{
       dir: '/Users/ktsukuda/work/ethereum_2017-03-07',
       networkId: '19081',
       port: '2001',
-      noDiscover: true
+      noDiscover: true,
+      connecting: false
     };
 
     this.handleNetworkIdChange = ::this.handleNetworkIdChange;
@@ -25,6 +22,17 @@ class App extends Component{
     this.handleDirChange = ::this.handleDirChange;
     this.handleNoDiscoverChange = ::this.handleNoDiscoverChange;
     this.execGeth = ::this.execGeth;
+    this.onChangeConnectButtonName = ::this.onChangeConnectButtonName;
+    this.onResetConnectButtonName = ::this.onResetConnectButtonName;
+
+    ipcRenderer.on('success', (obj, res) => {
+      this.setState({ connecting: true });
+    });
+
+    ipcRenderer.on('disconnected', (obj, res) => {
+      this.setState({ connecting: false });
+    });
+
   }
 
   handleDirChange(e) {
@@ -44,10 +52,29 @@ class App extends Component{
     this.setState({ networkId: e.target.value });
   }
 
+  onChangeConnectButtonName(){
+    this.setState({
+      hoverButton: true
+    });
+  }
+
+  onResetConnectButtonName(){
+    this.setState({
+      hoverButton: false
+    });
+  }
+
   execGeth(e) {
     e.preventDefault();
-    // console.log(this.state);
-    ipcRenderer.send('start', this.state);
+    const { connecting } = this.state;
+    if(connecting){
+      // 接続終了
+      ipcRenderer.send('disconnect');
+    }else{
+      // 接続開始
+      ipcRenderer.send('start', this.state);
+    }
+
   }
 
   render(){
@@ -55,8 +82,12 @@ class App extends Component{
       dir,
       networkId,
       port,
-      noDiscover
+      noDiscover,
+      connecting,
+      hoverButton
     } = this.state;
+
+    const connectButtonTitle = connecting ? (hoverButton ? 'disconnect': 'connecting...') : 'connect';
     return (
       <div className="container">
         <fieldset>
@@ -84,7 +115,14 @@ class App extends Component{
             </div>
           </div>
 
-          <input className="button-primary" type="submit" value="Send" onClick={this.execGeth} />
+          <input
+            className="button-primary"
+            type="submit"
+            value={connectButtonTitle}
+            onMouseOver={this.onChangeConnectButtonName}
+            onMouseOut={this.onResetConnectButtonName}
+            onClick={this.execGeth}
+          />
         </fieldset>
 
 

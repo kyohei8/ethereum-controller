@@ -105,21 +105,13 @@ ipcMain.on('start', function(event, arg) {
   child.stdout.pipe(process.stdout);
 
   child.stdin.write("eth.gasPrice\n");
+});
 
-  // child.stdin.end();
-
-  /*
-  function(error, stdout, stderr){
-    console.log('start!!');
-    console.log(geth);
-    event.sender.send('asynchronous-reply', 'geth start =>' + stdout);
-
-    geth.on('message', (m) => {
-      console.log('PARENT got message:', m);
-    });
-    geth.send('eth.gasPrice');
-  });
-  */
+ipcMain.on('disconnect', function(event, arg) {
+  console.log('kill');
+  child.stdin.end();
+  child.kill();
+  event.sender.send('disconnected');
 });
 
 ipcMain.on('send', function(event, arg) {
