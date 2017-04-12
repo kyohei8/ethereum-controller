@@ -1,5 +1,5 @@
 {
-  "name": "geth Controller",
+  "name": "ethereum-contorller",
   "version": "0.1.0",
   "scripts": {
     "start": "electron .",
