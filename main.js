@@ -111,6 +111,7 @@ ipcMain.on('disconnect', function(event, arg) {
   console.log('kill');
   child.stdin.end();
   child.kill();
+  child = null;
   event.sender.send('disconnected');
 });
 
