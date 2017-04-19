@@ -1,4 +1,90 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .container {
-  margin-top: 60px;
+  margin-top: 40px;
   max-width: 80rem;
+}
+
+.geth-options {
+  position: relative;
+}
+
+.curtain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  transform: scale(1.04);
+  border-radius: 4px;
+}
+
+.nav-bar {
+  width: 100%;
+  height: 40px;
+  border-bottom: 1px solid #dedede;
+  position: relative;
+}
+
+.icon-box {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translate(0, -50%);
+}
+
+.icon-box > .icon {
+  display: inline-block;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+.icon-box > .icon.-connect {
+  width: 24px;
+  height: 24px;
+  background-size: contain;
+  background-position: center center;
+  background-image: url('images/disconnect.png');
+}
+
+.icon-box > .icon.-mining {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-box > .icon.-mining::before {
+  font-size: 24px;
+  line-height: 24px;
+  content: '👷';
+}
+
+.tab-bar {
+  width: 100%;
+  height: 50px;
+  border-bottom: 1px solid #dedede;
+  position: relative;
+  overflow: hidden;
+}
+
+.tab-bar > .tab {
+  display: inline-block;
+  float: left;
+  height: 40px;
+  line-height: 40px;
+  margin: 10px 6px 0;
+  border-radius: 4px 4px 0 0;
+  background-color: #fff;
+  padding: 0 20px;
+  cursor: pointer;
+}
+
+.tab-bar > .tab.-active {
+  color: #e91e63;
+  border-bottom: 3px solid #e91e63;
 }

@@ -10,8 +10,15 @@ const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const url = require('url')
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
+// if(hot){
+// require('electron-reload')(__dirname, {
+  // electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
+// });
+// }
+
+var gethProcess = null;
+
+// GC対象となるのでmainWindowはグローバル参照である必要がある、
 let mainWindow
 
 function createWindow () {
@@ -28,11 +35,15 @@ function createWindow () {
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
 
-  // Emitted when the window is closed.
+  // ウィンドウが閉じられたとき
   mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
+    if(gethProcess){
+      // gethをkill
+      gethProcess.stdin.end();
+      gethProcess.kill();
+      gethProcess = null;
+    }
+
     mainWindow = null
   })
 }
@@ -59,15 +70,17 @@ app.on('activate', function () {
   }
 })
 
-var child = null;
 
 // 非同期
 ipcMain.on('start', function(event, arg) {
+  // console.log(arg);
   const {
     dir,
     networkId,
     noDiscover,
-    port
+    port,
+    dev,
+    rpc
   } = arg;
 
   const gethOption = [];
@@ -81,46 +94,59 @@ ipcMain.on('start', function(event, arg) {
     gethOption.push('--port', port);
   }
 
+  if(dev){
+    gethOption.push('--dev');
+  }
+
+  if(rpc){
+    gethOption.push('--rpc');
+    // --rpcaddr
+    // --rpcport
+  }
+
   if(noDiscover) {
     gethOption.push('--nodiscover');
   }
 
-  child = spawn("geth", gethOption.concat([
-    'console',  '2>>', '2017-03-07.log'
+  gethProcess = spawn("geth", gethOption.concat([
+    'console'
+    // '2>>',
+    // '2017-03-07.log'
   ]), {
     cwd: dir
   });
 
   event.sender.send('success', 'aaaa');
 
-  child.stdout.on('data', function (data) {
+  gethProcess.stdout.on('data', function (data) {
+    // ログをrenderに送る
     event.sender.send('reply', data.toString());
   });
 
-  child.stderr.on('data', function (data) {
+  gethProcess.stderr.on('data', function (data) {
     console.log('stderr: ' + data);
   });
 
-  child.stdin.setEncoding('utf-8');
-  child.stdout.pipe(process.stdout);
+  gethProcess.stdin.setEncoding('utf-8');
+  gethProcess.stdout.pipe(process.stdout);
 
-  child.stdin.write("eth.gasPrice\n");
+  gethProcess.stdin.write("eth.gasPrice\n");
 });
 
 ipcMain.on('disconnect', function(event, arg) {
-  console.log('kill');
-  child.stdin.end();
-  child.kill();
-  child = null;
+  gethProcess.stdin.end();
+  gethProcess.kill();
+  gethProcess = null;
   event.sender.send('disconnected');
 });
 
+// renderから送られてきたコマンドを実行
 ipcMain.on('send', function(event, arg) {
-  if(!child){
+  if(!gethProcess){
     return;
   }
-  child.stdin.write(arg + "\n");
-
+  gethProcess.stdin.write(arg + "\n");
 });
+
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
