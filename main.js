@@ -134,6 +134,7 @@ ipcMain.on('start', function(event, arg) {
 });
 
 ipcMain.on('disconnect', function(event, arg) {
+  gethProcess.stdin.write("exit\n");
   gethProcess.stdin.end();
   gethProcess.kill();
   gethProcess = null;
@@ -146,6 +147,22 @@ ipcMain.on('send', function(event, arg) {
     return;
   }
   gethProcess.stdin.write(arg + "\n");
+});
+
+// マイニングスタート
+ipcMain.on('minerStart', function(event, arg) {
+  if(!gethProcess){
+    return;
+  }
+  gethProcess.stdin.write("miner.start()\n");
+});
+
+// マイニングストップ
+ipcMain.on('minerStop', function(event, arg) {
+  if(!gethProcess){
+    return;
+  }
+  gethProcess.stdin.write("miner.stop()\n");
 });
 
 // In this file you can include the rest of your app's specific main process
