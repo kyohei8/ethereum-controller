@@ -10,11 +10,5 @@ $ npm i
 ## Start Development
 
 ```bash
-$ npm start
-```
-
-and
-
-```bash
 $ npm run dev
 ```
