@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TAB_STATE } from '../constants';
+import ConnectIcon from '../components/connectIcon.jsx';
+import MinigIcon from '../components/minigIcon.jsx';
 
 const propTypes = {
   tabIndex: PropTypes.string,
@@ -18,7 +20,7 @@ class TabBar extends Component{
   }
 
   render(){
-    const { tabIndex, handleTabChange } = this.props;
+    const { tabIndex, handleTabChange, connecting, mining } = this.props;
     const tabs = Object.keys(TAB_STATE).map((k) => {
       const tabName = TAB_STATE[k];
       const _className = tabIndex === tabName ? 'tab -active' : 'tab';
@@ -35,6 +37,12 @@ class TabBar extends Component{
     return (
       <div className="tab-bar">
         { tabs }
+        <div className="nav-bar">
+          <div className="icon-box">
+            <ConnectIcon connecting={connecting} />
+            <MinigIcon mining={mining} />
+          </div>
+        </div>
       </div>
     );
   }

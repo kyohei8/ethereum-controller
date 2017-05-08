@@ -10,9 +10,9 @@ const defaultProps = {};
  */
 const MinigIcon = (props) => {
   const { mining } = props;
-  const icon = mining ? '🔨' : '👷';
+  // const icon = mining ? '🔨' : '👷';
   return (
-    <span className="icon icon__mining">{icon}</span>
+    <span className="icon icon__mining"></span>
   );
 };
 

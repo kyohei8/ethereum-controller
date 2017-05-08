@@ -1,0 +1,25 @@
+.tab-bar {
+  width: 240px;
+  height: 100%;
+  padding-top: 20px;
+  background-color: #424242;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  & > .tab {
+    height: 40px;
+    line-height: 40px;
+    letter-spacing: 0.1em;
+    color: #fff;
+    padding: 0 20px;
+    cursor: pointer;
+  }
+
+  & > .tab.-active {
+    color: #FF5722;
+    border-right: 3px solid #FF5722;
+  }
+}

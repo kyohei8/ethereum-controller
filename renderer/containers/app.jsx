@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Setting from '../components/setting.jsx';
 import TabBar from '../components/tabBar.jsx';
-import ConnectIcon from '../components/connectIcon.jsx';
-import MinigIcon from '../components/minigIcon.jsx';
 import { TAB_STATE } from '../constants';
 
 const propTypes = {};
@@ -174,15 +172,11 @@ class App extends Component{
 
     return (
       <div>
-        <div className="nav-bar">
-          <div className="icon-box">
-            <ConnectIcon connecting={connecting} />
-            <MinigIcon mining={mining} />
-          </div>
-        </div>
         <TabBar
           tabIndex={tabIndex}
           handleTabChange={this.handleTabChange}
+          connecting={connecting}
+          mining={mining}
         />
         <main>
           { tabIndex === TAB_STATE.STATE ? <div>state</div> : null}

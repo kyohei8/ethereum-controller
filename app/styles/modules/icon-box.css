@@ -1,0 +1,25 @@
+.icon-box {
+  display: inline-block;
+  position: absolute 50% * 0 50%;
+  height: 32px;
+  transform: translate(-50%, -50%);
+
+  & > .icon {
+    display: inline-block;
+  }
+
+  & > .icon__connect {
+    width: 32px;
+    height: 32px;
+    background-size: contain;
+    background-position: center center;
+  }
+
+  & > .icon__mining {
+    width: 32px;
+    height: 32px;
+    background-image: url('../assets/images/hammer.png');
+    background-size: contain;
+    background-position: center center;
+  }
+}
