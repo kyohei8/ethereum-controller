@@ -10,11 +10,13 @@ const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const url = require('url')
 
-// if(hot){
-// require('electron-reload')(__dirname, {
-  // electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
-// });
-// }
+/*
+if(process.env.HOT){
+  require('electron-reload')(__dirname, {
+    electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
+  });
+}
+*/
 
 var gethProcess = null;
 
@@ -23,7 +25,7 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1280, height: 600})
+  mainWindow = new BrowserWindow({width: 1200, height: 700})
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -107,12 +109,15 @@ ipcMain.on('start', function(event, arg) {
   if(noDiscover) {
     gethOption.push('--nodiscover');
   }
-
-  gethProcess = spawn("geth", gethOption.concat([
+  const cmd = gethOption.concat([
     'console'
     // '2>>',
     // '2017-03-07.log'
-  ]), {
+  ]);
+
+  console.log(cmd.join(' '));
+
+  gethProcess = spawn("geth", cmd, {
     cwd: dir
   });
 

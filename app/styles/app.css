@@ -8,7 +8,7 @@
 
 .container {
   margin-top: 20px;
-  max-width: 80rem;
+  max-width: 100rem;
 }
 
 .geth-options {
@@ -35,8 +35,5 @@
 }
 
 main {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 240px;
+  position: absolute 0 0 0 240px;
 }

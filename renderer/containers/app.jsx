@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Setting from '../components/setting.jsx';
+import State from '../components/statePage.jsx';
 import TabBar from '../components/tabBar.jsx';
 import { TAB_STATE } from '../constants';
 
@@ -13,7 +14,7 @@ const initialState = {
   port: '2001',
   noDiscover: true,
   dev: true,
-  rpc: false,
+  rpc: true,
   rpcAddress: '',
   rpcPort: '',
   connecting: false,
@@ -179,7 +180,7 @@ class App extends Component{
           mining={mining}
         />
         <main>
-          { tabIndex === TAB_STATE.STATE ? <div>state</div> : null}
+          { tabIndex === TAB_STATE.STATE ? <State/> : null}
           { tabIndex === TAB_STATE.SETTING ? settingCompornent : null}
         </main>
       </div>

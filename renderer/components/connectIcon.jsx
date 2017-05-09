@@ -10,7 +10,7 @@ const defaultProps = {};
  */
 const ConnectIcon = (props) => {
   const { connecting } = props;
-  const bgImage = connecting ? 'images/connected.png' : 'images/disconnected.png';
+  const bgImage = `../app/assets/images/${connecting ? 'connected.png' : 'disconnected.png'}`;
   return (
     <span
       className="icon icon__connect"

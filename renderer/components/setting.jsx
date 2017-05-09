@@ -14,10 +14,12 @@ class Setting extends Component{
     this.toggleMining = ::this.toggleMining;
     this.sendGethCommand = ::this.sendGethCommand;
 
+    // 接続成功
     ipcRenderer.on('success', (obj, res) => {
       this.props.handleConnectingChange(true);
     });
 
+    // 切断成功
     ipcRenderer.on('disconnected', (obj, res) => {
       this.props.handleConnectingChange(false);
     });
@@ -106,7 +108,7 @@ class Setting extends Component{
           </div>
 
           <div className="row">
-            <div className="column column-25">
+            <div className="column column-50">
               <div>
                 <input type="checkbox" id="nodiscover" checked={noDiscover} onChange={handleNoDiscoverChange} />
                 <label className="label-inline" htmlFor="nodiscover">noDiscover</label>
@@ -118,6 +120,7 @@ class Setting extends Component{
             </div>
           </div>
 
+          {/* rpcはデフォルトでON
           <div className="row">
             <div className="column column-100">
               <input type="checkbox" id="rpc" checked={rpc} onChange={handleRPCChange} />
@@ -135,6 +138,7 @@ class Setting extends Component{
               <input type="text" placeholder="8545" id="rpcPort" value={rpcPort} onChange={handleRpcPortChange}/>
             </div>
           </div>
+          */}
         </fieldset>
 
         <div className="row">
