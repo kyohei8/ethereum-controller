@@ -34,8 +34,10 @@ function createWindow () {
     slashes: true
   }))
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  if(process.env.HOT){
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools()
+  }
 
   // ウィンドウが閉じられたとき
   mainWindow.on('closed', function () {
