@@ -25,19 +25,17 @@
     <div id="app"></div>
   </body>
   <script>
-    window.ipcRenderer = require('electron').ipcRenderer;
-    {
-      const scripts = [];
-      scripts.push(
-        (process.env.HOT)
-          ? 'http://127.0.0.1:8080/assets/app.bundle.js'
-          : '../app/dist/app.bundle.js'
-      );
-      document.write(
-        scripts
-          .map(script => '<script defer src="' + script + '"><\/script>')
-          .join('')
-      );
-    }
+  window.ipcRenderer = require('electron').ipcRenderer;
+  </script>
+  <script>
+    const scripts = [];
+    scripts.push(
+      process.env.HOT ? 'http://127.0.0.1:8080/assets/app.bundle.js' : '../app/dist/app.bundle.js'
+    );
+    document.write(
+      scripts
+        .map(script => '<script defer src="' + script + '"><\/script>')
+        .join('')
+    );
   </script>
 </html>
