@@ -81,9 +81,9 @@ module.exports = {
         }],
       }, {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
-          fallbackLoader: 'style-loader',
-          loader: [
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
             'css-loader',
             'postcss-loader'
           ]
@@ -95,7 +95,7 @@ module.exports = {
     ]
   },
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, './app/dist'),
     filename: '[name].bundle.js',
     publicPath: '/assets'
   },

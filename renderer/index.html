@@ -5,7 +5,15 @@
     <title>Ethrcon</title>
     <link rel="stylesheet" href="../node_modules/sanitize.css/sanitize.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../node_modules/milligram/dist/milligram.min.css" type="text/css" media="all" />
-    <link rel="stylesheet" href="http://127.0.0.1:8080/assets/app.css" type="text/css" media="all"/>
+    <script>
+      (function() {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = process.env.HOT ? 'http://127.0.0.1:8080/assets/app.css' : '../app/dist/app.css';
+        // HACK: Writing the script path should be done with webpack
+        document.getElementsByTagName('head')[0].appendChild(link);
+      }());
+    </script>
     <script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
   </head>
   <body>
@@ -16,10 +24,20 @@
     -->
     <div id="app"></div>
   </body>
-
-
   <script>
     window.ipcRenderer = require('electron').ipcRenderer;
+    {
+      const scripts = [];
+      scripts.push(
+        (process.env.HOT)
+          ? 'http://127.0.0.1:8080/assets/app.bundle.js'
+          : '../app/dist/app.bundle.js'
+      );
+      document.write(
+        scripts
+          .map(script => '<script defer src="' + script + '"><\/script>')
+          .join('')
+      );
+    }
   </script>
-  <script src="http://127.0.0.1:8080/assets/app.bundle.js"></script>
 </html>

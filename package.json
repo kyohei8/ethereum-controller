@@ -1,11 +1,22 @@
 {
   "name": "ethereum-controller",
+  "description": "ethereum controller",
   "version": "0.1.0",
+  "author": {
+    "name": "Kyohei Tsukuda",
+    "email": "tsukuda.kyouhei@gmail.com",
+    "url": "https://github.com/kyohei8"
+  },
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "start-electron-dev": "cross-env HOT=1 NODE_ENV=development electron .",
-    "dev": "concurrently --kill-others \"webpack-dev-server\" \"npm run start-electron-dev\""
+    "dev": "concurrently --kill-others \"webpack-dev-server\" \"npm run start-electron-dev\"",
+    "predist": "rm -rf dist/* && rm -rf app/dist/* && NODE_ENV=prod webpack -p",
+    "dist": "build"
+  },
+  "build": {
+    "appId": "com.lol.ethereum.controller"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
@@ -19,6 +30,7 @@
     "css-loader": "^0.28.1",
     "doiuse": "^2.6.0",
     "electron": "^1.6.6",
+    "electron-builder": "^17.8.0",
     "electron-reload": "^1.1.0",
     "ethereumjs-account": "^2.0.4",
     "ethereumjs-block": "^1.4.1",

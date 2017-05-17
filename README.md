@@ -12,3 +12,9 @@ $ npm i
 ```bash
 $ npm run dev
 ```
+
+## Build
+
+```bash
+$ npm run dist
+```
