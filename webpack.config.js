@@ -66,10 +66,21 @@ const processors = [
 ];
 
 module.exports = {
-  context: path.resolve(__dirname, './renderer'),
+  context: path.resolve(__dirname, './app'),
   entry: {
-    app: './app.js',
+    app: './scripts/app.js',
   },
+
+  output: {
+    path: path.resolve(__dirname, './app/dist'),
+    filename: '[name].bundle.js',
+    publicPath: '/assets'
+  },
+
+  devServer: {
+    contentBase: path.resolve(__dirname, './src')
+  },
+
   module: {
     rules: [
       {
@@ -94,15 +105,6 @@ module.exports = {
       }
     ]
   },
-  output: {
-    path: path.resolve(__dirname, './app/dist'),
-    filename: '[name].bundle.js',
-    publicPath: '/assets'
-  },
-  devServer: {
-    contentBase: path.resolve(__dirname, './src')
-  },
-
   plugins: [
     new webpack.LoaderOptionsPlugin({
       options: {
