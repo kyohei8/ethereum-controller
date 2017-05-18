@@ -117,27 +117,32 @@ ipcMain.on('start', function(event, arg) {
     // '2017-03-07.log'
   ]);
 
-  console.log(cmd.join(' '));
+  console.log('command: ', cmd.join(' '));
 
   gethProcess = spawn("geth", cmd, {
     cwd: dir
   });
 
-  event.sender.send('success', 'aaaa');
+  event.sender.send('success', '');
 
-  gethProcess.stdout.on('data', function (data) {
+  // Geth JavaScript consoleあたり
+  gethProcess.stdout.on('data', (data) => {
     // ログをrenderに送る
-    event.sender.send('reply', data.toString());
+    event.sender.send('replyOut', data.toString().replace(/\n/, '').replace('>', ''));
+    // console.log('stdout: ' + data);
   });
 
-  gethProcess.stderr.on('data', function (data) {
-    console.log('stderr: ' + data);
+  // Gethのログ
+  gethProcess.stderr.on('data', (data) => {
+    // ログをrenderに送る
+    event.sender.send('replyErr', data.toString());
+    // console.log('stderr: ' + data);
   });
 
   gethProcess.stdin.setEncoding('utf-8');
   gethProcess.stdout.pipe(process.stdout);
 
-  gethProcess.stdin.write("eth.gasPrice\n");
+  // gethProcess.stdin.write("eth.gasPrice\n");
 });
 
 ipcMain.on('disconnect', function(event, arg) {

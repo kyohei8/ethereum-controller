@@ -12,7 +12,6 @@ class Setting extends Component{
 
     this.execGeth = ::this.execGeth;
     this.toggleMining = ::this.toggleMining;
-    this.sendGethCommand = ::this.sendGethCommand;
 
     // 接続成功
     ipcRenderer.on('success', (obj, res) => {
@@ -24,8 +23,22 @@ class Setting extends Component{
       this.props.handleConnectingChange(false);
     });
 
-    ipcRenderer.on('reply', function(obj, res) {
-      console.log(res);
+    // outはGeth JavaScript consoleのメッセージ
+    ipcRenderer.on('replyOut', (obj, text) => {
+      this.props.handleReply({
+        type: 'out',
+        text
+      });
+      // console.log(res);
+    });
+
+    // errはシステム由来のメッセージ
+    ipcRenderer.on('replyErr', (obj, text) => {
+      this.props.handleReply({
+        type: 'err',
+        text
+      });
+      // console.log(res);
     });
   }
 
@@ -42,12 +55,6 @@ class Setting extends Component{
     }
   }
 
-  /**
-   * mainにコマンドを送信
-   */
-  sendGethCommand(){
-    ipcRenderer.send('send', this.props.command);
-  }
 
   toggleMining(){
     const { mining, handleMinigChange } = this.props
@@ -81,7 +88,6 @@ class Setting extends Component{
       handleRpcPortChange,
       connecting,
       command,
-      handleCommandChange,
       hoverButton,
       onChangeConnectButtonName,
       onResetConnectButtonName,
@@ -154,34 +160,18 @@ class Setting extends Component{
           </div>
         </div>
 
-        <div className="row">
-          <div className="column column-75">
-            <label htmlFor="cmd">command</label>
+        { connecting ?
+        <div>
+          <div className="row">
+            <div className="column column-25">
+              <button
+                className="button-primary"
+                onClick={this.toggleMining}
+                > { mining ? 'mining...' : 'miner start' }</button>
+            </div>
           </div>
         </div>
-
-        <div className="row">
-          <div className="column column-75">
-            <input type="text" placeholder="eth" id="cmd" value={command} onChange={handleCommandChange}/>
-          </div>
-          <div className="column column-25">
-            <input
-              className="button-primary"
-              type="submit"
-              value="send"
-              onClick={this.sendGethCommand}
-            />
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="column column-25">
-            <button
-              className="button-primary"
-              onClick={this.toggleMining}
-              > { mining ? 'mining...' : 'miner start' }</button>
-          </div>
-        </div>
+        : null}
 
       </div>
     );

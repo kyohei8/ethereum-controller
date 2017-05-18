@@ -36,4 +36,54 @@
 
 main {
   position: absolute 0 0 0 240px;
+  padding-bottom: 100rem;
 }
+
+.console {
+  position: fixed;
+  background-color: #fefefe;
+  height: 20rem;
+  left: 240px;
+  right: 0;
+  bottom: 0;
+  box-shadow: 0px -2px 10px 0px rgba(0,0,0,0.3);
+}
+
+.console .log {
+  margin: 10px 10px 5px;
+  height: calc(100% - 49px);
+  border: 1px solid #dedede;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.console .input-box {
+  margin: 0 10px;
+  position: relative;
+}
+
+.console .input-box::before {
+  content: '›';
+  position: absolute;
+  top: 0;
+  left: 7px;
+}
+
+.console .input {
+  border-radius: 0;
+  height: 2.3rem;
+  font-size: 12px;
+  padding: 0 0 0 16px;
+}
+
+.console .line {
+  margin: 0;
+  font-size: 12px;
+  padding: 0 6px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.console .line.-err {
+  color: #880e4f;
+}
+

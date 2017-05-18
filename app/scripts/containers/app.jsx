@@ -19,7 +19,8 @@ const initialState = {
   rpcPort: '',
   connecting: false,
   command: '',
-  mining: false
+  mining: false,
+  consoleObj: []
 };
 
 /**
@@ -41,9 +42,11 @@ class App extends Component{
     this.handleDevChange = ::this.handleDevChange;
     this.handleRPCChange = ::this.handleRPCChange;
     this.handleConnectingChange = ::this.handleConnectingChange;
+    this.handleReply = ::this.handleReply;
     this.onChangeConnectButtonName = ::this.onChangeConnectButtonName;
     this.onResetConnectButtonName = ::this.onResetConnectButtonName;
     this.handleMinigChange = ::this.handleMinigChange;
+    this.execGethCommand = ::this.execGethCommand;
   }
 
   handleTabChange(tabIndex) {
@@ -119,12 +122,29 @@ class App extends Component{
     this.setState({ connecting });
   }
 
+  handleReply(reply){
+    const { consoleObj } = this.state;
+    consoleObj.push(reply);
+    this.setState(consoleObj);
+  }
+
   handleMinigChange(mining){
     if(this.state.mining){
       this.setState({ mining: false });
     } else {
       this.setState({ mining: true });
     }
+  }
+
+  /**
+   * コマンド実行
+   */
+  execGethCommand(e){
+    e.preventDefault();
+    const { command } = this.state;
+    // console.log(command);
+    // mainにコマンドを送信
+    ipcRenderer.send('send', command);
   }
 
 
@@ -142,7 +162,8 @@ class App extends Component{
       command,
       tabIndex,
       mining,
-      hoverButton
+      hoverButton,
+      consoleObj
     } = this.state;
 
     const settingCompornent = <Setting
@@ -160,12 +181,12 @@ class App extends Component{
       handleRPCChange={this.handleRPCChange}
       connecting={connecting}
       handleConnectingChange={this.handleConnectingChange}
+      handleReply={this.handleReply}
       rpcAddress={rpcAddress}
       handleRpcAddressChange={this.handleRpcAddressChange}
       rpcPort={rpcPort}
       handleRpcPortChange={this.handleRpcPortChange}
       command={command}
-      handleCommandChange={this.handleCommandChange}
       mining={mining}
       handleMinigChange={this.handleMinigChange}
       hoverButton={hoverButton}
@@ -182,6 +203,30 @@ class App extends Component{
         <main>
           { tabIndex === TAB_STATE.STATE ? <State/> : null}
           { tabIndex === TAB_STATE.SETTING ? settingCompornent : null}
+          <div className="console">
+            <div className="log">
+              {
+                consoleObj.map((c, i) => {
+                  const cls = `line ${c.type === 'err' ? '-err' : ''}`;
+                  return (
+                    <p key={i} className={cls}>{c.text}</p>
+                  )
+                })
+              }
+            </div>
+            <div className="input-box">
+              <form onSubmit={this.execGethCommand}>
+                <input
+                  type="text"
+                  className="input"
+                  placeholder="eth.coinbase"
+                  id="cmd"
+                  value={command}
+                  onChange={this.handleCommandChange}
+                />
+              </form>
+            </div>
+          </div>
         </main>
       </div>
     );
