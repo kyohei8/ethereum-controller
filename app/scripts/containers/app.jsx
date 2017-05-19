@@ -125,7 +125,14 @@ class App extends Component{
   handleReply(reply){
     const { consoleObj } = this.state;
     consoleObj.push(reply);
-    this.setState(consoleObj);
+    this.setState(consoleObj, () => {
+      this.setState({ command: '' });
+      // スクロールを下に
+      if(this.$logBox) {
+        this.$logBox.scrollTop = this.$logBox.scrollHeight;
+      }
+    });
+
   }
 
   handleMinigChange(mining){
@@ -204,7 +211,7 @@ class App extends Component{
           { tabIndex === TAB_STATE.STATE ? <State/> : null}
           { tabIndex === TAB_STATE.SETTING ? settingCompornent : null}
           <div className="console">
-            <div className="log">
+            <div className="log" ref={(el) => { this.$logBox = el; }}>
               {
                 consoleObj.map((c, i) => {
                   const cls = `line ${c.type === 'err' ? '-err' : ''}`;
