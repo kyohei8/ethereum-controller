@@ -47,6 +47,7 @@ class App extends Component{
     this.onResetConnectButtonName = ::this.onResetConnectButtonName;
     this.handleMinigChange = ::this.handleMinigChange;
     this.execGethCommand = ::this.execGethCommand;
+    this.onClear = ::this.onClear;
   }
 
   handleTabChange(tabIndex) {
@@ -154,6 +155,13 @@ class App extends Component{
     ipcRenderer.send('send', command);
   }
 
+  onClear(e){
+    e.preventDefault();
+    this.setState({
+      consoleObj: []
+    });
+  }
+
 
   render(){
     const {
@@ -233,6 +241,7 @@ class App extends Component{
                 />
               </form>
             </div>
+            <button className="clear" onClick={this.onClear}>clear</button>
           </div>
         </main>
       </div>
